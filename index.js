@@ -13,7 +13,9 @@ async function fetchAssetThumbnails(assetIds) {
 
   try {
     const response = await axios.get(apiUrl, { params });
-    return response.data.data;
+    const thumbnails = response.data.data;
+    const imageUrls = thumbnails.map(thumbnail => thumbnail.imageUrl);
+    return imageUrls;
   } catch (error) {
     if (error.response) {
       
@@ -27,12 +29,12 @@ async function fetchAssetThumbnails(assetIds) {
   }
 }
 
-
+// Put the asset id you want to scrape the thumbnail from
 const assetIds = [439945661];
 fetchAssetThumbnails(assetIds)
-  .then(thumbnails => {
-    if (thumbnails) {
-      console.log('Thumbnail data:', thumbnails);
+  .then(imageUrls => {
+    if (imageUrls) {
+      console.log('Image URLs:', imageUrls);
     } else {
       console.log('Thumbnail fetching failed.');
     }
